@@ -1,0 +1,26 @@
+{
+  "_説明": "このファイルはアプリの設定です。ボタンの表示名が実際の画面と違う場合は、下の値を書き換えてください。",
+
+  "login_url": "https://skinmu.sec.tsukuba.ac.jp/user",
+  "mypage_url": "https://skinmu.sec.tsukuba.ac.jp/mypage/",
+
+  "_ボタン設定": "画面に表示されている出勤・退勤ボタンの文字をそのまま入れてください。部分一致で探します。",
+  "clock_in_button_text": "出勤",
+  "clock_out_button_text": "退勤",
+
+  "_確認ボタン": "打刻後に『OK』『確定』などの確認ボタンが出る場合はその文字を入れてください。無ければ空欄のまま。",
+  "confirm_button_text": "",
+
+  "_打刻ページ": "トップ画面に打刻ボタンが無い場合に開くメニューの文字。",
+  "punch_page_link_text": "出退勤管理",
+
+  "_上級設定": "打刻ボタンの正確な指定（マイページの送信ボタンID）。通常は変更不要。",
+  "clock_in_css": "#start_btn",
+  "clock_out_css": "#end_btn",
+
+  "_ブラウザ": "Google Chrome を使う場合は chrome。無い場合は空欄にすると付属のブラウザを使います。",
+  "browser_channel": "chrome",
+
+  "_自動で閉じる秒数": "打刻後にブラウザを開いたままにする秒数。確認したい場合は長めに。",
+  "keep_open_seconds": 10
+}

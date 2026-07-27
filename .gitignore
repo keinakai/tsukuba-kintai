@@ -1,0 +1,14 @@
+# 個人環境・秘密情報を含むため除外
+.venv/
+__pycache__/
+*.pyc
+診断_*.html
+診断_*.png
+出勤退勤アプリ_配布用.zip
+*.log
+
+# ログイン状態・打刻控えなど（本来はOS標準の保管場所に置かれるが念のため）
+browser_profile/
+打刻記録.csv
+最終打刻_*.png
+.DS_Store
