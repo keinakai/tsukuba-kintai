@@ -1,43 +1,67 @@
 @echo off
-chcp 65001 >nul
-rem 初回セットアップ（1回だけ実行）
-rem 専用の隔離環境(venv)を作り、その中に Playwright とブラウザを導入します。
-
+setlocal
 cd /d "%~dp0"
 set "VENV=%cd%\.venv"
 
 echo ==============================================
-echo  出退勤打刻アプリ セットアップ (Windows)
+echo   Tsukuba Kintai App - Setup (Windows)
 echo ==============================================
+echo.
 
+set "PY="
 where python >nul 2>nul
-if errorlevel 1 (
-    echo [エラー] Python が見つかりません。
-    echo   https://www.python.org/downloads/ から Python 3 をインストールしてください。
-    echo   インストール時、最初の画面で必ず
-    echo   「Add python.exe to PATH」にチェックを入れてください。
+if not errorlevel 1 set "PY=python"
+
+if not defined PY (
+    where py >nul 2>nul
+    if not errorlevel 1 set "PY=py"
+)
+
+if not defined PY (
+    echo [ERROR] Python was not found.
+    echo.
+    echo Please install Python 3 from https://www.python.org/downloads/
+    echo IMPORTANT: On the very first install screen, check the box
+    echo "Add python.exe to PATH" before clicking "Install Now".
+    echo.
+    echo After installing, RESTART YOUR COMPUTER once ^(this is required for
+    echo Windows to notice the change^), then run this setup.bat again.
     pause
     exit /b 1
 )
 
-echo ・専用環境(venv)を作成します…
-if exist "%VENV%" rmdir /s /q "%VENV%"
-python -m venv "%VENV%"
+echo Using Python command: %PY%
+%PY% --version
+echo.
 
-echo ・Playwright とログイン情報保管用ライブラリを導入します…
+echo Step 1/3: Creating a private environment for this app...
+if exist "%VENV%" rmdir /s /q "%VENV%"
+%PY% -m venv "%VENV%"
+
+if not exist "%VENV%\Scripts\python.exe" (
+    echo.
+    echo [ERROR] Failed to create the environment. Please copy everything
+    echo shown above and share it for help.
+    pause
+    exit /b 1
+)
+
+echo Step 2/3: Installing Playwright and keyring...
 "%VENV%\Scripts\python.exe" -m pip install --upgrade pip
 "%VENV%\Scripts\python.exe" -m pip install playwright keyring
 
-echo ・ブラウザ本体を導入します（導入済みなら再利用）…
+echo Step 3/3: Installing the browser engine ^(Chromium^)...
 "%VENV%\Scripts\python.exe" -m playwright install chromium
 
 "%VENV%\Scripts\python.exe" -c "import tkinter, playwright, keyring" >nul 2>nul
 if errorlevel 1 (
     echo.
-    echo [警告] 何かが不足しています。表示された内容をサポートに伝えてください。
+    echo [WARNING] Something may still be missing. Please copy everything
+    echo shown above and share it for help.
 ) else (
     echo.
-    echo [完了] セットアップ完了。
-    echo   次回からは「出勤退勤アプリを起動.bat」をダブルクリックしてください。
+    echo [DONE] Setup complete.
+    echo Next time, just double-click the launch .bat file to start the app.
 )
+echo.
 pause
